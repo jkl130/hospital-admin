@@ -85,7 +85,7 @@
         label="学位"
         align="center">
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="doctorForte"
         label="医生特长"
         align="center">
@@ -94,7 +94,7 @@
         prop="doctorAbout"
         label="医生介绍"
         align="center">
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         prop="rec"
         label="推荐"

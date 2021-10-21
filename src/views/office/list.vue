@@ -31,7 +31,7 @@
         label="科室医生人数"
         align="center">
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="officesEquipment"
         label="科室设备介绍"
         align="center">
@@ -50,7 +50,7 @@
         prop="officesDiagnosisScope"
         label="科室诊断范围"
         align="center">
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         prop="rec"
         label="推荐"

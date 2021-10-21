@@ -16,8 +16,8 @@
           <el-option
             v-for="(item, index) in cityList"
             :key="index"
-            :label="item"
-            :value="item">
+            :label="item.areaName"
+            :value="item.areaName">
           </el-option>
         </el-select>
       </el-form-item>
@@ -26,8 +26,8 @@
           <el-option
             v-for="(item, index) in districtList"
             :key="index"
-            :label="item"
-            :value="item">
+            :label="item.areaName"
+            :value="item.areaName">
           </el-option>
         </el-select>
       </el-form-item>
@@ -47,7 +47,6 @@
     <el-table
       :data="hospitalData.list"
       border
-      height="800"
       style="width: 100%">
       <el-table-column
         fixed
@@ -122,7 +121,7 @@
         label="是否医保"
         align="center">
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="hospitalEquipment"
         label="医院设备介绍"
         width="500"
@@ -139,7 +138,7 @@
         label="医院荣誉"
         width="500"
         align="center">
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         prop="hospitalUrl"
         label="医院网址"
@@ -160,11 +159,11 @@
         label="医院邮编"
         align="center">
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="hospitalBusRoute"
         label="公交路线"
         align="center">
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         prop="isOpen"
         label="是否开启挂号"

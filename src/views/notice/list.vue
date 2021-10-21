@@ -10,14 +10,14 @@
         label="公告主题"
         align="center">
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="noticeDescription"
         label="公告描述"
         align="center">
         <template slot-scope="scope">
           <div v-html="scope.row.noticeDescription"></div>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         prop="noticeType"
         label="公告类型"
@@ -162,7 +162,6 @@ class MyUploadAdapter {
 }
 function MyUploadAdapterPlugin(editor) {
   editor.plugins.get( 'FileRepository' ).createUploadAdapter = function( loader ) {
-    console.log(loader)
     return new MyUploadAdapter( loader );
   }
 }
@@ -219,11 +218,6 @@ export default {
     this.getNoticeList()
   },
   methods: {
-    // MyUploadAdapterPlugin(editor) {
-    //   editor.plugins.get( 'FileRepository' ).createUploadAdapter = function( loader ) {
-    //     console.log(loader)
-    //   }
-    // },
     getNoticeList() {
       this.$request('get', 'notice/list').then(res => {
         this.noticeList = res.data.data
