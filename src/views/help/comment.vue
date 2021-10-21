@@ -11,8 +11,8 @@
         align="center">
       </el-table-column>
       <el-table-column
-        prop="userName"
-        label="患者姓名"
+        prop="userId"
+        label="患者id"
         align="center">
       </el-table-column>
       <el-table-column
@@ -34,6 +34,7 @@
         prop="ctime"
         label="评论时间"
         align="center">
+      </el-table-column>
       <el-table-column
         prop="回复时间"
         label="atime"
