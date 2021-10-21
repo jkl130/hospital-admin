@@ -36,7 +36,7 @@
         align="center">
       </el-table-column>
       <el-table-column
-        prop="回复时间"
+        prop="atime"
         label="atime"
         align="center">
       </el-table-column>
