@@ -37,7 +37,7 @@
       </el-table-column>
       <el-table-column
         prop="atime"
-        label="atime"
+        label="回复时间"
         align="center">
       </el-table-column>
       <el-table-column
