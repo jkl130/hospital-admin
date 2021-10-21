@@ -2,7 +2,7 @@
   <div>
     <el-form :inline="true" :model="hospitalQueryForm" size="mini" class="demo-form-inline">
       <el-form-item label="省">
-        <el-select v-model="hospitalQueryForm.province" placeholder="请选择" filterable clearable @change="provinceChange">
+        <el-select v-model="hospitalQueryForm.province" placeholder="请选择" filterable clearable @change="provinceChange" @clear="provinceClear">
           <el-option
             v-for="(item, index) in provinceList"
             :key="index"
@@ -12,7 +12,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="市">
-        <el-select v-model="hospitalQueryForm.city" placeholder="请选择" filterable clearable :disabled="cityDisabled" @change="cityChange">
+        <el-select v-model="hospitalQueryForm.city" placeholder="请选择" filterable clearable :disabled="cityDisabled" @change="cityChange" @clear="cityClear">
           <el-option
             v-for="(item, index) in cityList"
             :key="index"
@@ -373,7 +373,9 @@ export default {
       })
     },
     provinceChange(province) {
-      console.log(province)
+      this.this.hospitalQueryForm.city = ''
+      this.this.hospitalQueryForm.district = ''
+      this.cityList = []
       province = province.replace(/\s/g, '')
       if (province) {
         this.$request('get', 'findAreaByLevel2', {areaName: province}).then(res => {
@@ -383,7 +385,8 @@ export default {
       }
     },
     cityChange(city) {
-      console.log(city)
+      this.hospitalQueryForm.district = ''
+      this.districtList = []
       city = city.replace(/\s/g, '')
       if (this.hospitalQueryForm.province && city) {
         this.$request('get', 'findAreaByLevel3', {areaName: this.hospitalQueryForm.province, cityName: city}).then(res => {
@@ -391,6 +394,13 @@ export default {
           this.districtDisabled = false
         })
       }
+    },
+    provinceClear() {
+      this.hospitalQueryForm.city = ''
+      this.hospitalQueryForm.district = ''
+    },
+    cityClear() {
+      this.hospitalQueryForm.district = ''
     },
     pageChange(page) {
       this.hospitalQueryForm.pageIndex = page
