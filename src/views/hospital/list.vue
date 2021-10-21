@@ -373,8 +373,8 @@ export default {
       })
     },
     provinceChange(province) {
-      this.this.hospitalQueryForm.city = ''
-      this.this.hospitalQueryForm.district = ''
+      this.hospitalQueryForm.city = ''
+      this.hospitalQueryForm.district = ''
       this.cityList = []
       province = province.replace(/\s/g, '')
       if (province) {
