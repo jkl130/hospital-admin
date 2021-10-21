@@ -31,8 +31,8 @@
           <el-radio :label="0">否</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="发送通知是否成功" prop="isSend">
-        <el-radio-group v-model="orderInfo.isSend">
+      <el-form-item label="是否已支付" prop="isSuccess">
+        <el-radio-group v-model="orderInfo.isSuccess">
           <el-radio :label="1">是</el-radio>
           <el-radio :label="0">否</el-radio>
         </el-radio-group>
@@ -63,7 +63,7 @@ export default {
         hospitalName: '',
         isCancel: 0,
         isFinish: 0,
-        isSend: 0,
+        isSuccess: 0,
         officesName: '',
         orderVer: '',
         transactDate: '',

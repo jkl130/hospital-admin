@@ -31,11 +31,6 @@
         align="center">
       </el-table-column>
       <el-table-column
-        prop="officesHonor"
-        label="科室荣誉"
-        align="center">
-      </el-table-column>
-      <el-table-column
         prop="transactDate"
         label="办理日期"
         align="center">
@@ -52,19 +47,10 @@
       </el-table-column>
       <el-table-column
         prop="isSuccess"
-        label="是否办理成功"
+        label="是否已支付"
         align="center">
         <template slot-scope="scope">
           <span v-if="scope.row.isSuccess">是</span>
-          <span v-else>否</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="isSend"
-        label="发送通知是否成功"
-        align="center">
-        <template slot-scope="scope">
-          <span v-if="scope.row.isSend">是</span>
           <span v-else>否</span>
         </template>
       </el-table-column>
@@ -80,11 +66,6 @@
       <el-table-column
         prop="createTime"
         label="创建时间"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop="orderVer"
-        label="预约识别码"
         align="center">
       </el-table-column>
       <el-table-column
@@ -128,7 +109,7 @@
         <el-form-item label="患者疾病信息" prop="diseaseInfo">
           <el-input v-model="orderInfo.diseaseInfo" type="textarea" autosize clearable placeholder="请输入患者疾病信息"></el-input>
         </el-form-item>
-        <el-form-item label="是否预约成功" prop="isSuccess">
+        <el-form-item label="是否已支付" prop="isSuccess">
           <el-radio-group v-model="orderInfo.isSuccess">
             <el-radio :label="1">是</el-radio>
             <el-radio :label="0">否</el-radio>
@@ -139,12 +120,6 @@
         </el-form-item>
         <el-form-item label="是否完成" prop="isFinish">
           <el-radio-group v-model="orderInfo.isFinish">
-            <el-radio :label="1">是</el-radio>
-            <el-radio :label="0">否</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="发送通知是否成功" prop="isSend">
-          <el-radio-group v-model="orderInfo.isSend">
             <el-radio :label="1">是</el-radio>
             <el-radio :label="0">否</el-radio>
           </el-radio-group>
