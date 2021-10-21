@@ -5,7 +5,7 @@
 <template>
   <el-form class="login-container">
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" v-show="loginState">
-      <h3 class="title">用户登录</h3>
+      <h3 class="title">医院挂号系统管理后台</h3>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
           <svg-icon icon-class="user" />

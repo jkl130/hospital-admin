@@ -131,6 +131,12 @@ export const constantRouterMap = [
         meta: { title: "反馈", icon: "tree" }
       },
       {
+        path: "comment",
+        name: "评论",
+        component: () => import("@/views/help/comment.vue"),
+        meta: { title: "评论", icon: "tree" }
+      },
+      {
         path: "faq_list",
         name: "问答",
         component: () => import("@/views/help/faq_list.vue"),

@@ -5,7 +5,7 @@
     <breadcrumb></breadcrumb>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <img class="user-avatar" src="/static/imgs/logo1.jpg" />
+        <img class="user-avatar" src="/static/imgs/logo1.png" />
       </div>
       <el-dropdown-menu class="user-dropdown" slot="dropdown">
         <router-link class="inlineBlock" style="text-align: center;" to="/">
