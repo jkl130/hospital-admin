@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-form :inline="true" :model="officeQueryForm" size="mini" class="demo-form-inline">
-      <el-form-item label="科室名称">
-        <el-input v-model="officeQueryForm.hospitalName" clearable placeholder="请输入科室名称"></el-input>
-      </el-form-item>
       <el-form-item label="医院名称">
-        <el-input v-model="officeQueryForm.officesName" clearable placeholder="请输入医院名称"></el-input>
+        <el-input v-model="officeQueryForm.hospitalName" clearable placeholder="请输入医院名称"></el-input>
+      </el-form-item>
+      <el-form-item label="科室名称">
+        <el-input v-model="officeQueryForm.officesName" clearable placeholder="请输入科室名称"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="getOfficeList">查询</el-button>
@@ -16,14 +16,13 @@
       border
       style="width: 100%">
       <el-table-column
-        prop="officesName"
-        fixed
-        label="科室名称"
+        prop="hospitalName"
+        label="医院名称"
         align="center">
       </el-table-column>
       <el-table-column
-        prop="hospitalName"
-        label="医院名称"
+        prop="officesName"
+        label="科室名称"
         align="center">
       </el-table-column>
       <el-table-column
@@ -75,16 +74,17 @@
       hide-on-single-page
     >
     </el-pagination>
-    <el-dialog title="修改科室信息" :visible.sync="updateDialogVisible" :close-on-click-modal="false" @close="resetOfficeInfo">
+    <el-dialog title="修改科室信息" :visible.sync="updateDialogVisible" :close-on-click-modal="false"
+               @close="resetOfficeInfo">
       <el-form :model="officeInfo" :rules="rules" ref="officeInfoForm" label-width="100px" label-position="left">
-        <el-form-item label="科室名称" prop="officesName">
-          <el-input v-model="officeInfo.officesName" clearable placeholder="请输入科室名称"></el-input>
-        </el-form-item>
         <el-form-item label="医院名称" prop="hospitalName">
           <el-input v-model="officeInfo.hospitalName" clearable placeholder="请输入医院名称"></el-input>
         </el-form-item>
+        <el-form-item label="科室名称" prop="officesName">
+          <el-input v-model="officeInfo.officesName" clearable placeholder="请输入科室名称"></el-input>
+        </el-form-item>
         <el-form-item label="科室医生人数" prop="doctorNum">
-          <el-input v-model="officeInfo.doctorNum" clearable placeholder="请输入科室医生人数"></el-input>
+          <el-input v-model="officeInfo.doctorNum" clearable placeholder="请输入科室医生人数" disabled></el-input>
         </el-form-item>
         <el-form-item label="科室设备介绍" prop="officesEquipment">
           <el-input v-model="officeInfo.officesEquipment" clearable placeholder="请输入科室设备介绍"></el-input>
@@ -129,15 +129,15 @@ export default {
       // 自定义表单校验规则(https://element.eleme.cn/#/zh-CN/component/form)
       rules: {
         officesName: [
-          { required: true, message: '科室名称不能为空', trigger: 'blur' }
+          {required: true, message: '科室名称不能为空', trigger: 'blur'}
         ],
         hospitalName: [
-          { required: true, message: '医院名称不能为空', trigger: 'blur' }
+          {required: true, message: '医院名称不能为空', trigger: 'blur'}
         ]
       }
     }
   },
-   mounted() {
+  mounted() {
     this.getOfficeList()
   },
   methods: {
@@ -185,7 +185,8 @@ export default {
         this.$request('delete', `office/delete/${officeInfo.id}`).then(res => {
           this.getOfficeList();
         })
-      }).catch(() => {});
+      }).catch(() => {
+      });
     }
   }
 }

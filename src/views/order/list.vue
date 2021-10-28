@@ -4,17 +4,17 @@
       :data="orderList"
       border
       style="width: 100%">
-      <el-table-column
-        prop="id"
-        fixed
-        label="预约id"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop="userID"
-        label="患者id"
-        align="center">
-      </el-table-column>
+<!--      <el-table-column-->
+<!--        prop="id"-->
+<!--        fixed-->
+<!--        label="预约id"-->
+<!--        align="center">-->
+<!--      </el-table-column>-->
+<!--      <el-table-column-->
+<!--        prop="userID"-->
+<!--        label="患者id"-->
+<!--        align="center">-->
+<!--      </el-table-column>-->
       <el-table-column
         prop="hospitalName"
         label="医院名称"
@@ -28,6 +28,11 @@
       <el-table-column
         prop="doctorName"
         label="医生姓名"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="username"
+        label="患者姓名"
         align="center">
       </el-table-column>
       <el-table-column
@@ -59,7 +64,7 @@
         label="是否取消"
         align="center">
         <template slot-scope="scope">
-          <span v-if="scope.row.isSend">是</span>
+          <span v-if="scope.row.isCancel">是</span>
           <span v-else>否</span>
         </template>
       </el-table-column>
@@ -190,7 +195,7 @@ export default {
             this.resetOrderInfo()
           })
         }
-      });
+      })
     },
     resetOrderInfo() {
       this.updateDialogVisible = false
@@ -203,9 +208,9 @@ export default {
         type: 'warning'
       }).then(() => {
         this.$request('delete', `order/delete/${orderInfo.id}`).then(res => {
-          this.getOrderList();
+          this.getOrderList()
         })
-      }).catch(() => {});
+      }).catch(() => {})
     }
   }
 }

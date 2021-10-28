@@ -88,7 +88,7 @@ export default {
             this.resetFaqInfo()
           })
         }
-      });
+      })
     },
     resetFaqInfo() {
       this.updateDialogVisible = false
@@ -101,9 +101,9 @@ export default {
         type: 'warning'
       }).then(() => {
         this.$request('delete', `help/delete/${faqInfo.id}`).then(res => {
-          this.getFaqList();
+          this.getFaqList()
         })
-      }).catch(() => {});
+      }).catch(() => {})
     }
   }
 }

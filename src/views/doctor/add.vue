@@ -22,7 +22,7 @@
           :on-success="handleUploadSuccess"
           :on-error="uploadError"
         >
-          <img v-if="doctorInfo.doctorImg" :src="doctorInfo.doctorImg" class="avatar" />
+          <img v-if="doctorInfo.doctorImg" :src="doctorInfo.doctorImg" class="avatar"/>
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
@@ -62,7 +62,8 @@
 </template>
 
 <script>
-import {imgUploadVerifyAndResize} from '@/utils/imgUtil'
+import { imgUploadVerifyAndResize } from '@/utils/imgUtil'
+
 export default {
   name: 'add',
   data() {
@@ -74,7 +75,7 @@ export default {
         doctorImg: '',
         hospitalName: '',
         officesName: '',
-        doctorName: '',
+        teachTitle: '',
         doctorTitle: '',
         doctorAdministrative: '',
         doctorDegree: '',
@@ -117,7 +118,7 @@ export default {
      */
     handleUploadSuccess(res) {
       if (res.success) {
-        this.doctorInfo.doctorImg = res.data;
+        this.doctorInfo.doctorImg = res.data
       }
     },
     addDoctor() {
@@ -127,11 +128,11 @@ export default {
           this.$request('post', 'doctor/add', this.doctorInfo).then(res => {
             this.$refs.doctorInfoForm.resetFields()
             this.loading = false
-          }).catch(err => {
+          }).catch(() => {
             this.loading = false
           })
         }
-      });
+      })
     }
   }
 }

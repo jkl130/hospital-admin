@@ -32,13 +32,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="医院类型">
-        <el-input v-model="hospitalQueryForm.hospitalNature" clearable placeholder="请输入医生职称"></el-input>
+        <el-input v-model="hospitalQueryForm.hospitalNature" clearable placeholder="请输入医院类型"></el-input>
       </el-form-item>
       <el-form-item label="医院等级">
-        <el-input v-model="hospitalQueryForm.hospitalGrade" clearable placeholder="请输入医生行政职位"></el-input>
+        <el-input v-model="hospitalQueryForm.hospitalGrade" clearable placeholder="请输入医院等级"></el-input>
       </el-form-item>
       <el-form-item label="医院名称">
-        <el-input v-model="hospitalQueryForm.hospitalName" clearable placeholder="请输入医生学位"></el-input>
+        <el-input v-model="hospitalQueryForm.hospitalName" clearable placeholder="请输入医院名称"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="getHospitalList">查询</el-button>
@@ -103,7 +103,7 @@
       </el-table-column>
       <el-table-column
         prop="medicalInsuranceNum"
-        label="医保人数（保留）"
+        label="医保人数"
         align="center">
       </el-table-column>
       <el-table-column
@@ -139,26 +139,26 @@
         width="500"
         align="center">
       </el-table-column> -->
-      <el-table-column
-        prop="hospitalUrl"
-        label="医院网址"
-        align="center">
-      </el-table-column>
+<!--      <el-table-column-->
+<!--        prop="hospitalUrl"-->
+<!--        label="医院网址"-->
+<!--        align="center">-->
+<!--      </el-table-column>-->
       <el-table-column
         prop="hospitalPhone"
         label="医院电话"
         align="center">
       </el-table-column>
-      <el-table-column
-        prop="hospitalAddress"
-        label="医院地址"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop="hospitalPostCode"
-        label="医院邮编"
-        align="center">
-      </el-table-column>
+<!--      <el-table-column-->
+<!--        prop="hospitalAddress"-->
+<!--        label="医院地址"-->
+<!--        align="center">-->
+<!--      </el-table-column>-->
+<!--      <el-table-column-->
+<!--        prop="hospitalPostCode"-->
+<!--        label="医院邮编"-->
+<!--        align="center">-->
+<!--      </el-table-column>-->
       <!-- <el-table-column
         prop="hospitalBusRoute"
         label="公交路线"
@@ -235,16 +235,16 @@
           <el-input v-model="hospitalInfo.hospitalGrade" clearable placeholder="请输入医院等级"></el-input>
         </el-form-item>
         <el-form-item label="科室数量" prop="hospitalOfficesNum">
-          <el-input v-model="hospitalInfo.hospitalOfficesNum" clearable placeholder="请输入科室数量"></el-input>
+          <el-input v-model="hospitalInfo.hospitalOfficesNum" clearable placeholder="请输入科室数量" disabled></el-input>
         </el-form-item>
-        <el-form-item label="医保人数(保留)" prop="medicalInsuranceNum">
-          <el-input v-model="hospitalInfo.medicalInsuranceNum" clearable placeholder="请输入医保人数（保留）"></el-input>
+        <el-form-item label="医保人数" prop="medicalInsuranceNum">
+          <el-input v-model="hospitalInfo.medicalInsuranceNum" clearable placeholder="请输入医保人数"></el-input>
         </el-form-item>
         <el-form-item label="病床数量" prop="hospitalBedNum">
           <el-input v-model="hospitalInfo.hospitalBedNum" clearable placeholder="请输入病床数量"></el-input>
         </el-form-item>
         <el-form-item label="年门诊量" prop="outpatientNum">
-          <el-input v-model="hospitalInfo.outpatientNum" clearable placeholder="请输入年门诊量"></el-input>
+          <el-input v-model="hospitalInfo.outpatientNum" clearable placeholder="请输入年门诊量" disabled></el-input>
         </el-form-item>
         <el-form-item label="是否医保" prop="isMedicalInsurance">
           <el-input v-model="hospitalInfo.isMedicalInsurance" clearable placeholder="是否医保"></el-input>
@@ -292,7 +292,7 @@
 </template>
 
 <script>
-import {imgUploadVerifyAndResize} from '@/utils/imgUtil'
+import { imgUploadVerifyAndResize } from '@/utils/imgUtil'
 export default {
   name: 'hospital',
   data() {
@@ -355,7 +355,7 @@ export default {
       fileUrl: process.env.BASE_API + 'upload',
       uploadHeaders: {
         Authorization: `Bearer ${localStorage.token}`
-      },
+      }
     }
   },
   mounted() {
@@ -378,7 +378,7 @@ export default {
       this.cityList = []
       province = province.replace(/\s/g, '')
       if (province) {
-        this.$request('get', 'findAreaByLevel2', {areaName: province}).then(res => {
+        this.$request('get', 'findAreaByLevel2', { areaName: province }).then(res => {
           this.cityList = res.data.data
           this.cityDisabled = false
         })
@@ -389,7 +389,7 @@ export default {
       this.districtList = []
       city = city.replace(/\s/g, '')
       if (this.hospitalQueryForm.province && city) {
-        this.$request('get', 'findAreaByLevel3', {areaName: this.hospitalQueryForm.province, cityName: city}).then(res => {
+        this.$request('get', 'findAreaByLevel3', { areaName: this.hospitalQueryForm.province, cityName: city }).then(res => {
           this.districtList = res.data.data
           this.districtDisabled = false
         })
@@ -418,7 +418,7 @@ export default {
             this.resetHospitalInfo()
           })
         }
-      });
+      })
     },
     resetHospitalInfo() {
       this.updateDialogVisible = false
@@ -431,9 +431,9 @@ export default {
         type: 'warning'
       }).then(() => {
         this.$request('delete', `hos/delete/${hospitalInfo.id}`).then(res => {
-          this.getHospitalList();
+          this.getHospitalList()
         })
-      }).catch(() => {});
+      }).catch(() => {})
     },
     /**
      * 图片上传之前触发
@@ -448,7 +448,7 @@ export default {
      */
     handleUploadSuccess(res) {
       if (res.success) {
-        this.hospitalInfo.hospitalImg = res.data;
+        this.hospitalInfo.hospitalImg = res.data
       }
     }
   }

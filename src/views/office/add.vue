@@ -1,14 +1,11 @@
 <template>
   <div>
     <el-form :model="officeInfo" :rules="rules" ref="officeInfoForm" label-width="100px" label-position="left">
-      <el-form-item label="科室名称" prop="officesName">
-        <el-input v-model="officeInfo.officesName" clearable placeholder="请输入科室名称"></el-input>
-      </el-form-item>
       <el-form-item label="医院名称" prop="hospitalName">
         <el-input v-model="officeInfo.hospitalName" clearable placeholder="请输入医院名称"></el-input>
       </el-form-item>
-      <el-form-item label="科室医生人数" prop="doctorNum">
-        <el-input v-model="officeInfo.doctorNum" clearable placeholder="请输入科室医生人数"></el-input>
+      <el-form-item label="科室名称" prop="officesName">
+        <el-input v-model="officeInfo.officesName" clearable placeholder="请输入科室名称"></el-input>
       </el-form-item>
       <el-form-item label="科室设备介绍" prop="officesEquipment">
         <el-input v-model="officeInfo.officesEquipment" type="textarea" autosize clearable placeholder="请输入科室设备介绍"></el-input>

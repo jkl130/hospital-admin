@@ -183,7 +183,7 @@
 </template>
 
 <script>
-import {imgUploadVerifyAndResize} from '@/utils/imgUtil'
+import { imgUploadVerifyAndResize } from '@/utils/imgUtil'
 export default {
   name: 'doctor',
   data() {
@@ -258,7 +258,7 @@ export default {
             this.resetDoctorInfo()
           })
         }
-      });
+      })
     },
     resetDoctorInfo() {
       this.updateDialogVisible = false
@@ -271,9 +271,9 @@ export default {
         type: 'warning'
       }).then(() => {
         this.$request('delete', `doctor/delete/${doctorInfo.id}`).then(res => {
-          this.getDoctorList();
+          this.getDoctorList()
         })
-      }).catch(() => {});
+      }).catch(() => {})
     },
     /**
      * 图片上传之前触发
@@ -288,7 +288,7 @@ export default {
      */
     handleUploadSuccess(res) {
       if (res.success) {
-        this.doctorInfo.doctorImg = res.data;
+        this.doctorInfo.doctorImg = res.data
       }
     }
   }

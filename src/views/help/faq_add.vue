@@ -48,11 +48,11 @@ export default {
           this.$request('post', 'help/add', this.faqInfo).then(res => {
             this.$refs.faqInfoForm.resetFields()
             this.loading = false
-          }).catch(err => {
+          }).catch(() => {
             this.loading = false
           })
         }
-      });
+      })
     }
   }
 }

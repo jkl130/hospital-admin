@@ -94,7 +94,7 @@ export default {
             this.resetCommentInfo()
           })
         }
-      });
+      })
     },
     resetCommentInfo() {
       this.updateDialogVisible = false

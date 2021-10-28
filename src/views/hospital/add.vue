@@ -19,7 +19,7 @@
           :on-success="handleUploadSuccess"
           :on-error="uploadError"
         >
-          <img v-if="hospitalInfo.hospitalImg" :src="hospitalInfo.hospitalImg" class="avatar" />
+          <img v-if="hospitalInfo.hospitalImg" :src="hospitalInfo.hospitalImg" class="avatar"/>
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
@@ -35,29 +35,26 @@
       <el-form-item label="医院等级" prop="hospitalGrade">
         <el-input v-model="hospitalInfo.hospitalGrade" clearable placeholder="请输入医院等级"></el-input>
       </el-form-item>
-      <el-form-item label="科室数量" prop="hospitalOfficesNum">
-        <el-input v-model="hospitalInfo.hospitalOfficesNum" clearable placeholder="请输入科室数量"></el-input>
-      </el-form-item>
-      <el-form-item label="医保人数(保留)" prop="medicalInsuranceNum">
-        <el-input v-model="hospitalInfo.medicalInsuranceNum" clearable placeholder="请输入医保人数（保留）"></el-input>
+      <el-form-item label="医保人数" prop="medicalInsuranceNum">
+        <el-input v-model="hospitalInfo.medicalInsuranceNum" clearable placeholder="请输入医保人数"></el-input>
       </el-form-item>
       <el-form-item label="病床数量" prop="hospitalBedNum">
         <el-input v-model="hospitalInfo.hospitalBedNum" clearable placeholder="请输入病床数量"></el-input>
-      </el-form-item>
-      <el-form-item label="年门诊量" prop="outpatientNum">
-        <el-input v-model="hospitalInfo.outpatientNum" clearable placeholder="请输入年门诊量"></el-input>
       </el-form-item>
       <el-form-item label="是否医保" prop="isMedicalInsurance">
         <el-input v-model="hospitalInfo.isMedicalInsurance" clearable placeholder="是否医保"></el-input>
       </el-form-item>
       <el-form-item label="医院设备介绍" prop="hospitalEquipment">
-        <el-input v-model="hospitalInfo.hospitalEquipment" type="textarea" autosize clearable placeholder="请输入医院设备介绍"></el-input>
+        <el-input v-model="hospitalInfo.hospitalEquipment" type="textarea" autosize clearable
+                  placeholder="请输入医院设备介绍"></el-input>
       </el-form-item>
       <el-form-item label="医院简介" prop="hospitalAbout">
-        <el-input v-model="hospitalInfo.hospitalAbout" type="textarea" autosize clearable placeholder="请输入医院简介"></el-input>
+        <el-input v-model="hospitalInfo.hospitalAbout" type="textarea" autosize clearable
+                  placeholder="请输入医院简介"></el-input>
       </el-form-item>
       <el-form-item label="医院荣誉" prop="hospitalHonor">
-        <el-input v-model="hospitalInfo.hospitalHonor" type="textarea" autosize clearable placeholder="请输入医院荣誉"></el-input>
+        <el-input v-model="hospitalInfo.hospitalHonor" type="textarea" autosize clearable
+                  placeholder="请输入医院荣誉"></el-input>
       </el-form-item>
       <el-form-item label="医院网址" prop="hospitalUrl">
         <el-input v-model="hospitalInfo.hospitalUrl" clearable placeholder="请输入医院网址"></el-input>
@@ -66,13 +63,15 @@
         <el-input v-model="hospitalInfo.hospitalPhone" autosize clearable placeholder="请输入医院电话"></el-input>
       </el-form-item>
       <el-form-item label="医院地址" prop="hospitalAddress">
-        <el-input v-model="hospitalInfo.hospitalAddress" type="textarea" autosize clearable placeholder="请输入医院地址"></el-input>
+        <el-input v-model="hospitalInfo.hospitalAddress" type="textarea" autosize clearable
+                  placeholder="请输入医院地址"></el-input>
       </el-form-item>
       <el-form-item label="医院邮编" prop="hospitalPostCode">
         <el-input v-model="hospitalInfo.hospitalPostCode" clearable placeholder="请输入医院邮编"></el-input>
       </el-form-item>
       <el-form-item label="公交路线" prop="hospitalBusRoute">
-        <el-input v-model="hospitalInfo.hospitalBusRoute" type="textarea" autosize clearable placeholder="请输入公交路线"></el-input>
+        <el-input v-model="hospitalInfo.hospitalBusRoute" type="textarea" autosize clearable
+                  placeholder="请输入公交路线"></el-input>
       </el-form-item>
       <el-form-item label="是否开启挂号" prop="isOpen">
         <el-radio-group v-model="hospitalInfo.isOpen">
@@ -81,7 +80,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="推荐" prop="rec">
-        <el-input v-model.number="hospitalInfo.rec" type="number" clearable placeholder="请输入正整数"></el-input>
+        <el-input v-model.number="hospitalInfo.rec" type="number" clearable placeholder="请输入非负整数"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="addHospital" :loading="loading">添加</el-button>
@@ -92,7 +91,8 @@
 </template>
 
 <script>
-import {imgUploadVerifyAndResize} from '@/utils/imgUtil'
+import { imgUploadVerifyAndResize } from '@/utils/imgUtil'
+
 export default {
   name: 'add',
   data() {
@@ -118,7 +118,7 @@ export default {
         hospitalAddress: '',
         hospitalPostCode: '',
         hospitalBusRoute: '',
-        hospitalAddress: '',
+        hospitalBedNum: '',
         isOpen: 1,
         rec: ''
       },
@@ -145,7 +145,7 @@ export default {
     handleUploadSuccess(res) {
       if (res.success) {
         console.log(res.data)
-        this.hospitalInfo.hospitalImg = res.data;
+        this.hospitalInfo.hospitalImg = res.data
       }
     },
     addHospital() {
@@ -155,11 +155,11 @@ export default {
           this.$request('post', 'hos/add', this.hospitalInfo).then(res => {
             this.$refs.hospitalInfoForm.resetFields()
             this.loading = false
-          }).catch(err => {
+          }).catch(() => {
             this.loading = false
           })
         }
-      });
+      })
     }
   }
 }
