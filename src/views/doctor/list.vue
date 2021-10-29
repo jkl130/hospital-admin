@@ -20,7 +20,7 @@
         <el-input v-model="doctorQueryForm.doctorDegree" clearable placeholder="请输入医生学位"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="getDoctorList">查询</el-button>
+        <el-button type="primary" @click="search">查询</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -45,12 +45,12 @@
         <template slot-scope="scope">
           <el-tooltip class="item" effect="light" placement="right">
             <div slot="content">
-              <img v-if="scope.row.doctorImg" :src="scope.row.doctorImg" class="tableImg1" />
-              <img v-else src="static/imgs/noImg.png" class="tableImg1" />
+              <img v-if="scope.row.doctorImg" :src="scope.row.doctorImg" class="tableImg1"/>
+              <img v-else src="static/imgs/noImg.png" class="tableImg1"/>
             </div>
             <div>
-              <img v-if="scope.row.doctorImg" :src="scope.row.doctorImg" class="tableImg" />
-              <img v-else src="static/imgs/noImg.png" class="tableImg" />
+              <img v-if="scope.row.doctorImg" :src="scope.row.doctorImg" class="tableImg"/>
+              <img v-else src="static/imgs/noImg.png" class="tableImg"/>
             </div>
           </el-tooltip>
         </template>
@@ -115,11 +115,13 @@
       layout="total ,prev, pager, next"
       @current-change="pageChange"
       :total="doctorData.totalCount"
-      :page-size="doctorQueryForm.pageSize"
+      :page-size="doctorData.pageSize"
+      :currentPage="doctorData.pageIndex"
       hide-on-single-page
     >
     </el-pagination>
-    <el-dialog title="修改医生信息" :visible.sync="updateDialogVisible" :close-on-click-modal="false" @close="resetDoctorInfo">
+    <el-dialog title="修改医生信息" :visible.sync="updateDialogVisible" :close-on-click-modal="false"
+               @close="resetDoctorInfo">
       <el-form :model="doctorInfo" :rules="rules" ref="doctorInfoForm" label-width="100px" label-position="left">
         <el-form-item label="姓名" prop="doctorName">
           <el-input v-model="doctorInfo.doctorName" clearable placeholder="请输入医生姓名"></el-input>
@@ -142,7 +144,7 @@
             :on-success="handleUploadSuccess"
             :on-error="uploadError"
           >
-            <img v-if="doctorInfo.doctorImg" :src="doctorInfo.doctorImg" class="avatar" />
+            <img v-if="doctorInfo.doctorImg" :src="doctorInfo.doctorImg" class="avatar"/>
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -165,10 +167,12 @@
           <el-input v-model="doctorInfo.teachTitle" clearable placeholder="请输入教学支职称"></el-input>
         </el-form-item>
         <el-form-item label="医生特长" prop="doctorForte">
-          <el-input v-model="doctorInfo.doctorForte" type="textarea" autosize clearable placeholder="请输入医生特长"></el-input>
+          <el-input v-model="doctorInfo.doctorForte" type="textarea" autosize clearable
+                    placeholder="请输入医生特长"></el-input>
         </el-form-item>
         <el-form-item label="医生介绍" prop="doctorAbout">
-          <el-input v-model="doctorInfo.doctorAbout" type="textarea" autosize clearable placeholder="请输入医生介绍"></el-input>
+          <el-input v-model="doctorInfo.doctorAbout" type="textarea" autosize clearable
+                    placeholder="请输入医生介绍"></el-input>
         </el-form-item>
         <el-form-item label="推荐" prop="rec">
           <el-input v-model.number="doctorInfo.rec" type="number" clearable placeholder="推荐"></el-input>
@@ -184,6 +188,7 @@
 
 <script>
 import { imgUploadVerifyAndResize } from '@/utils/imgUtil'
+
 export default {
   name: 'doctor',
   data() {
@@ -229,6 +234,16 @@ export default {
     this.getDoctorList()
   },
   methods: {
+
+    search() {
+      this.doctorQueryForm = {
+        ...this.doctorQueryForm,
+        pageSize: 10,
+        pageIndex: 1
+      }
+      this.getDoctorList()
+    },
+
     /**
      * 获取医生列表
      */
@@ -273,7 +288,8 @@ export default {
         this.$request('delete', `doctor/delete/${doctorInfo.id}`).then(res => {
           this.getDoctorList()
         })
-      }).catch(() => {})
+      }).catch(() => {
+      })
     },
     /**
      * 图片上传之前触发

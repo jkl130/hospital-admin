@@ -8,7 +8,7 @@
         <el-input v-model="officeQueryForm.officesName" clearable placeholder="请输入科室名称"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="getOfficeList">查询</el-button>
+        <el-button type="primary" @click="search">查询</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -70,7 +70,8 @@
       layout="total ,prev, pager, next"
       @current-change="pageChange"
       :total="officeData.totalCount"
-      :page-size="officeQueryForm.pageSize"
+      :page-size="officeData.pageSize"
+      :currentPage="officeData.pageIndex"
       hide-on-single-page
     >
     </el-pagination>
@@ -129,10 +130,10 @@ export default {
       // 自定义表单校验规则(https://element.eleme.cn/#/zh-CN/component/form)
       rules: {
         officesName: [
-          {required: true, message: '科室名称不能为空', trigger: 'blur'}
+          { required: true, message: '科室名称不能为空', trigger: 'blur' }
         ],
         hospitalName: [
-          {required: true, message: '医院名称不能为空', trigger: 'blur'}
+          { required: true, message: '医院名称不能为空', trigger: 'blur' }
         ]
       }
     }
@@ -141,6 +142,14 @@ export default {
     this.getOfficeList()
   },
   methods: {
+    search() {
+      this.officeQueryForm = {
+        ...this.officeQueryForm,
+        pageSize: 10,
+        pageIndex: 1
+      }
+      this.getOfficeList()
+    },
     /**
      * 获取科室列表
      */
@@ -170,7 +179,7 @@ export default {
             this.resetOfficeInfo()
           })
         }
-      });
+      })
     },
     resetOfficeInfo() {
       this.updateDialogVisible = false
@@ -183,10 +192,10 @@ export default {
         type: 'warning'
       }).then(() => {
         this.$request('delete', `office/delete/${officeInfo.id}`).then(res => {
-          this.getOfficeList();
+          this.getOfficeList()
         })
       }).catch(() => {
-      });
+      })
     }
   }
 }

@@ -2,7 +2,8 @@
   <div>
     <el-form :inline="true" :model="hospitalQueryForm" size="mini" class="demo-form-inline">
       <el-form-item label="省">
-        <el-select v-model="hospitalQueryForm.province" placeholder="请选择" filterable clearable @change="provinceChange" @clear="provinceClear">
+        <el-select v-model="hospitalQueryForm.province" placeholder="请选择" filterable clearable @change="provinceChange"
+                   @clear="provinceClear">
           <el-option
             v-for="(item, index) in provinceList"
             :key="index"
@@ -12,7 +13,8 @@
         </el-select>
       </el-form-item>
       <el-form-item label="市">
-        <el-select v-model="hospitalQueryForm.city" placeholder="请选择" filterable clearable :disabled="cityDisabled" @change="cityChange" @clear="cityClear">
+        <el-select v-model="hospitalQueryForm.city" placeholder="请选择" filterable clearable :disabled="cityDisabled"
+                   @change="cityChange" @clear="cityClear">
           <el-option
             v-for="(item, index) in cityList"
             :key="index"
@@ -22,7 +24,8 @@
         </el-select>
       </el-form-item>
       <el-form-item label="县">
-        <el-select v-model="hospitalQueryForm.district" placeholder="请选择"  :disabled="districtDisabled" filterable clearable>
+        <el-select v-model="hospitalQueryForm.district" placeholder="请选择" :disabled="districtDisabled" filterable
+                   clearable>
           <el-option
             v-for="(item, index) in districtList"
             :key="index"
@@ -41,7 +44,7 @@
         <el-input v-model="hospitalQueryForm.hospitalName" clearable placeholder="请输入医院名称"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="getHospitalList">查询</el-button>
+        <el-button type="primary" @click="search">查询</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -66,12 +69,12 @@
         <template slot-scope="scope">
           <el-tooltip class="item" effect="light" placement="right">
             <div slot="content">
-              <img v-if="scope.row.hospitalImg" :src="scope.row.hospitalImg" class="tableImg1" />
-              <img v-else src="static/imgs/noImg.png" class="tableImg1" />
+              <img v-if="scope.row.hospitalImg" :src="scope.row.hospitalImg" class="tableImg1"/>
+              <img v-else src="static/imgs/noImg.png" class="tableImg1"/>
             </div>
             <div>
-              <img v-if="scope.row.hospitalImg" :src="scope.row.hospitalImg" class="tableImg" />
-              <img v-else src="static/imgs/noImg.png" class="tableImg" />
+              <img v-if="scope.row.hospitalImg" :src="scope.row.hospitalImg" class="tableImg"/>
+              <img v-else src="static/imgs/noImg.png" class="tableImg"/>
             </div>
           </el-tooltip>
         </template>
@@ -139,26 +142,26 @@
         width="500"
         align="center">
       </el-table-column> -->
-<!--      <el-table-column-->
-<!--        prop="hospitalUrl"-->
-<!--        label="医院网址"-->
-<!--        align="center">-->
-<!--      </el-table-column>-->
+      <!--      <el-table-column-->
+      <!--        prop="hospitalUrl"-->
+      <!--        label="医院网址"-->
+      <!--        align="center">-->
+      <!--      </el-table-column>-->
       <el-table-column
         prop="hospitalPhone"
         label="医院电话"
         align="center">
       </el-table-column>
-<!--      <el-table-column-->
-<!--        prop="hospitalAddress"-->
-<!--        label="医院地址"-->
-<!--        align="center">-->
-<!--      </el-table-column>-->
-<!--      <el-table-column-->
-<!--        prop="hospitalPostCode"-->
-<!--        label="医院邮编"-->
-<!--        align="center">-->
-<!--      </el-table-column>-->
+      <!--      <el-table-column-->
+      <!--        prop="hospitalAddress"-->
+      <!--        label="医院地址"-->
+      <!--        align="center">-->
+      <!--      </el-table-column>-->
+      <!--      <el-table-column-->
+      <!--        prop="hospitalPostCode"-->
+      <!--        label="医院邮编"-->
+      <!--        align="center">-->
+      <!--      </el-table-column>-->
       <!-- <el-table-column
         prop="hospitalBusRoute"
         label="公交路线"
@@ -194,11 +197,13 @@
       layout="total ,prev, pager, next"
       @current-change="pageChange"
       :total="hospitalData.totalCount"
-      :page-size="hospitalQueryForm.pageSize"
+      :page-size="hospitalData.pageSize"
+      :currentPage="hospitalData.pageIndex"
       hide-on-single-page
     >
     </el-pagination>
-    <el-dialog title="修改医院信息" :visible.sync="updateDialogVisible" :close-on-click-modal="false" @close="resetHospitalInfo">
+    <el-dialog title="修改医院信息" :visible.sync="updateDialogVisible" :close-on-click-modal="false"
+               @close="resetHospitalInfo">
       <el-form :model="hospitalInfo" :rules="rules" ref="hospitalInfoForm" label-width="120px" label-position="left">
         <el-form-item label="医院名称" prop="hospitalName">
           <el-input v-model="hospitalInfo.hospitalName" clearable placeholder="请输入医院名称"></el-input>
@@ -218,7 +223,7 @@
             :on-success="handleUploadSuccess"
             :on-error="uploadError"
           >
-            <img v-if="hospitalInfo.hospitalImg" :src="hospitalInfo.hospitalImg" class="avatar" />
+            <img v-if="hospitalInfo.hospitalImg" :src="hospitalInfo.hospitalImg" class="avatar"/>
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -250,13 +255,16 @@
           <el-input v-model="hospitalInfo.isMedicalInsurance" clearable placeholder="是否医保"></el-input>
         </el-form-item>
         <el-form-item label="医院设备介绍" prop="hospitalEquipment">
-          <el-input v-model="hospitalInfo.hospitalEquipment" type="textarea" autosize clearable placeholder="请输入医院设备介绍"></el-input>
+          <el-input v-model="hospitalInfo.hospitalEquipment" type="textarea" autosize clearable
+                    placeholder="请输入医院设备介绍"></el-input>
         </el-form-item>
         <el-form-item label="医院简介" prop="hospitalAbout">
-          <el-input v-model="hospitalInfo.hospitalAbout" type="textarea" autosize clearable placeholder="请输入医院简介"></el-input>
+          <el-input v-model="hospitalInfo.hospitalAbout" type="textarea" autosize clearable
+                    placeholder="请输入医院简介"></el-input>
         </el-form-item>
         <el-form-item label="医院荣誉" prop="hospitalHonor">
-          <el-input v-model="hospitalInfo.hospitalHonor" type="textarea" autosize clearable placeholder="请输入医院荣誉"></el-input>
+          <el-input v-model="hospitalInfo.hospitalHonor" type="textarea" autosize clearable
+                    placeholder="请输入医院荣誉"></el-input>
         </el-form-item>
         <el-form-item label="医院网址" prop="hospitalUrl">
           <el-input v-model="hospitalInfo.hospitalUrl" clearable placeholder="请输入医院网址"></el-input>
@@ -265,13 +273,15 @@
           <el-input v-model="hospitalInfo.hospitalPhone" autosize clearable placeholder="请输入医院电话"></el-input>
         </el-form-item>
         <el-form-item label="医院地址" prop="hospitalAddress">
-          <el-input v-model="hospitalInfo.hospitalAddress" type="textarea" autosize clearable placeholder="请输入医院地址"></el-input>
+          <el-input v-model="hospitalInfo.hospitalAddress" type="textarea" autosize clearable
+                    placeholder="请输入医院地址"></el-input>
         </el-form-item>
         <el-form-item label="医院邮编" prop="hospitalPostCode">
           <el-input v-model="hospitalInfo.hospitalPostCode" clearable placeholder="请输入医院邮编"></el-input>
         </el-form-item>
         <el-form-item label="公交路线" prop="hospitalBusRoute">
-          <el-input v-model="hospitalInfo.hospitalBusRoute" type="textarea" autosize clearable placeholder="请输入公交路线"></el-input>
+          <el-input v-model="hospitalInfo.hospitalBusRoute" type="textarea" autosize clearable
+                    placeholder="请输入公交路线"></el-input>
         </el-form-item>
         <el-form-item label="是否开启挂号" prop="isOpen">
           <el-radio-group v-model="hospitalInfo.isOpen">
@@ -293,6 +303,7 @@
 
 <script>
 import { imgUploadVerifyAndResize } from '@/utils/imgUtil'
+
 export default {
   name: 'hospital',
   data() {
@@ -362,6 +373,14 @@ export default {
     this.getHospitalList()
   },
   methods: {
+    search() {
+      this.hospitalQueryForm = {
+        ...this.hospitalQueryForm,
+        pageSize: 10,
+        pageIndex: 1
+      }
+      this.getHospitalList()
+    },
     getHospitalList() {
       this.$request('post', 'hos/orderHos', this.getSearchParams(this.hospitalQueryForm)).then(res => {
         this.hospitalData = {
@@ -389,7 +408,10 @@ export default {
       this.districtList = []
       city = city.replace(/\s/g, '')
       if (this.hospitalQueryForm.province && city) {
-        this.$request('get', 'findAreaByLevel3', { areaName: this.hospitalQueryForm.province, cityName: city }).then(res => {
+        this.$request('get', 'findAreaByLevel3', {
+          areaName: this.hospitalQueryForm.province,
+          cityName: city
+        }).then(res => {
           this.districtList = res.data.data
           this.districtDisabled = false
         })
@@ -433,7 +455,8 @@ export default {
         this.$request('delete', `hos/delete/${hospitalInfo.id}`).then(res => {
           this.getHospitalList()
         })
-      }).catch(() => {})
+      }).catch(() => {
+      })
     },
     /**
      * 图片上传之前触发
