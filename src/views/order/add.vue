@@ -4,14 +4,14 @@
       <el-form-item label="患者id" prop="userID">
         <el-input v-model="orderInfo.userID" clearable placeholder="请输入患者id"></el-input>
       </el-form-item>
-      <el-form-item label="医生" prop="doctorName">
-        <el-input v-model="orderInfo.doctorName" clearable placeholder="请输入医生姓名"></el-input>
+      <el-form-item label="医院" prop="hospitalName">
+        <el-input v-model="orderInfo.hospitalName" clearable placeholder="请输入医院名称"></el-input>
       </el-form-item>
       <el-form-item label="科室" prop="officesName">
         <el-input v-model="orderInfo.officesName" clearable placeholder="请输入科室名称"></el-input>
       </el-form-item>
-      <el-form-item label="医院" prop="hospitalName">
-        <el-input v-model="orderInfo.hospitalName" clearable placeholder="请输入医院名称"></el-input>
+      <el-form-item label="医生" prop="doctorName">
+        <el-input v-model="orderInfo.doctorName" clearable placeholder="请输入医生姓名"></el-input>
       </el-form-item>
       <el-form-item label="办理日期" prop="transactDate">
         <el-input v-model="orderInfo.transactDate" clearable placeholder="请输入办理日期"></el-input>
@@ -102,11 +102,11 @@ export default {
           this.$request('post', 'order/add', this.orderInfo).then(res => {
             this.$refs.orderInfoForm.resetFields()
             this.loading = false
-          }).catch(err => {
+          }).catch(() => {
             this.loading = false
           })
         }
-      });
+      })
     }
   }
 }

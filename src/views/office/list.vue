@@ -79,7 +79,7 @@
                @close="resetOfficeInfo">
       <el-form :model="officeInfo" :rules="rules" ref="officeInfoForm" label-width="100px" label-position="left">
         <el-form-item label="医院名称" prop="hospitalName">
-          <el-input v-model="officeInfo.hospitalName" clearable placeholder="请输入医院名称"></el-input>
+          <el-input v-model="officeInfo.hospitalName" clearable placeholder="请输入医院名称" disabled></el-input>
         </el-form-item>
         <el-form-item label="科室名称" prop="officesName">
           <el-input v-model="officeInfo.officesName" clearable placeholder="请输入科室名称"></el-input>

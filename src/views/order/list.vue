@@ -45,11 +45,11 @@
         label="办理时间段"
         align="center">
       </el-table-column>
-      <el-table-column
-        prop="diseaseInfo"
-        label="疾病信息"
-        align="center">
-      </el-table-column>
+<!--      <el-table-column-->
+<!--        prop="diseaseInfo"-->
+<!--        label="疾病信息"-->
+<!--        align="center">-->
+<!--      </el-table-column>-->
       <el-table-column
         prop="isSuccess"
         label="是否已支付"
@@ -93,17 +93,17 @@
     </el-table>
     <el-dialog title="修改订单信息" :visible.sync="updateDialogVisible" :close-on-click-modal="false" @close="resetOrderInfo">
       <el-form :model="orderInfo" :rules="rules" ref="orderInfoForm" label-width="130px" label-position="left">
-        <el-form-item label="患者id" prop="userID">
-          <el-input v-model="orderInfo.userID" clearable placeholder="请输入患者id"></el-input>
-        </el-form-item>
-        <el-form-item label="医生" prop="doctorName">
-          <el-input v-model="orderInfo.doctorName" clearable placeholder="请输入医生姓名"></el-input>
-        </el-form-item>
-        <el-form-item label="科室" prop="officesName">
-          <el-input v-model="orderInfo.officesName" clearable placeholder="请输入科室名称"></el-input>
+        <el-form-item label="患者姓名" prop="username">
+          <el-input v-model="orderInfo.username" clearable placeholder="请输入患者姓名" disabled></el-input>
         </el-form-item>
         <el-form-item label="医院" prop="hospitalName">
-          <el-input v-model="orderInfo.hospitalName" clearable placeholder="请输入医院名称"></el-input>
+          <el-input v-model="orderInfo.hospitalName" clearable placeholder="请输入医院名称" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="科室" prop="officesName">
+          <el-input v-model="orderInfo.officesName" clearable placeholder="请输入科室名称" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="医生" prop="doctorName">
+          <el-input v-model="orderInfo.doctorName" clearable placeholder="请输入医生姓名" disabled></el-input>
         </el-form-item>
         <el-form-item label="办理日期" prop="transactDate">
           <el-input v-model="orderInfo.transactDate" clearable placeholder="请输入办理日期"></el-input>
