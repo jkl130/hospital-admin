@@ -1,8 +1,21 @@
 <template>
   <div>
     <el-form :model="officeInfo" :rules="rules" ref="officeInfoForm" label-width="100px" label-position="left">
-      <el-form-item label="医院名称" prop="hospitalName">
-        <el-input v-model="officeInfo.hospitalName" clearable placeholder="请输入医院名称"></el-input>
+      <el-form-item label="医院名称" prop="hosId">
+        <!-- <el-input v-model="officeInfo.hospitalName" clearable placeholder="请输入医院名称"></el-input> -->
+        <el-select
+          v-model="officeInfo.hosId"
+          filterable
+          clearable
+          remote
+          reserve-keyword
+          placeholder="请输入关键词"
+          :remote-method="searchHospital"
+          @visible-change="visibleChange"
+          :loading="hospitalLoading">
+          <el-option v-for="item in hospitalOptions" :key="item.id" :label="item.hospitalName" :value="item.id">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="科室名称" prop="officesName">
         <el-input v-model="officeInfo.officesName" clearable placeholder="请输入科室名称"></el-input>
@@ -40,7 +53,7 @@ export default {
         doctorName: '',
         doctorSex: '男',
         doctorImg: '',
-        hospitalName: '',
+        hosId: '',
         officesName: '',
         doctorName: '',
         doctorTitle: '',
@@ -54,15 +67,40 @@ export default {
         officesName: [
           { required: true, message: '科室名称不能为空', trigger: 'blur' }
         ],
-        hospitalName: [
-          { required: true, message: '医院名称不能为空', trigger: 'blur' }
+        hosId: [
+          { required: true, message: '医院不能为空', trigger: 'blur' }
         ]
       },
-      loading: false
+      loading: false,
+      hospitalOptions: [],
+      hospitalLoading: false
     }
   },
   methods: {
+    searchHospital(query) {
+      this.hospitalOptions = []
+      this.officeList = []
+      if (query !== '') {
+        this.$request('get', 'hos/search', { hospitalName: query }).then(res => {
+          if (res && res.data && res.data.success && res.data.data) {
+            this.hospitalOptions = res.data.data
+            this.hospitalLoading = false;
+          } else {
+            this.hospitalOptions = []
+            this.hospitalLoading = true;
+          }
+        })
+      } else {
+        this.hospitalLoading = false
+      }
+    },
+    visibleChange(val) {
+      if (!val) {
+        this.hospitalOptions = []
+      }
+    },
     addOffice() {
+      console.log(this.officeInfo)
       this.$refs.officeInfoForm.validate((valid) => {
         if (valid) {
           this.loading = true

@@ -26,11 +26,34 @@
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
-      <el-form-item label="医院" prop="hospitalName">
-        <el-input v-model="doctorInfo.hospitalName" clearable placeholder="请输入医院名称"></el-input>
+      <el-form-item label="医院" prop="hosId">
+        <!-- <el-input v-model="doctorInfo.hospitalName" clearable placeholder="请输入医院名称"></el-input> -->
+        <el-select
+          v-model="doctorInfo.hosId"
+          filterable
+          clearable
+          remote
+          reserve-keyword
+          placeholder="请输入关键词"
+          :remote-method="searchHospital"
+          @visible-change="visibleChange"
+          @change="hospitalChange"
+          @clear="hospitalReset"
+          :loading="hospitalLoading">
+          <el-option v-for="item in hospitalOptions" :key="item.id" :label="item.hospitalName" :value="item.id">
+          </el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item label="科室" prop="officesName">
-        <el-input v-model="doctorInfo.officesName" clearable placeholder="请输入科室名称"></el-input>
+      <el-form-item label="科室" prop="officeId">
+        <!-- <el-input v-model="doctorInfo.officesName" clearable placeholder="请输入科室名称"></el-input> -->
+        <el-select v-model="doctorInfo.officeId" placeholder="请选择科室">
+          <el-option
+            v-for="item in officeList"
+            :key="item.id"
+            :label="item.officesName"
+            :value="item.id">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="职称" prop="doctorTitle">
         <el-input v-model="doctorInfo.doctorTitle" clearable placeholder="请输入医生职称"></el-input>
@@ -73,8 +96,9 @@ export default {
         doctorName: '',
         doctorSex: '男',
         doctorImg: '',
-        hospitalName: '',
-        officesName: '',
+        // hospitalName: '',
+        hosId: '',
+        officeId: '',
         teachTitle: '',
         doctorTitle: '',
         doctorAdministrative: '',
@@ -97,14 +121,25 @@ export default {
         doctorImg: [
           { required: true, message: '请上传医生照片', trigger: 'blur' }
         ],
-        hospitalName: [
+        hosId: [
           { required: true, message: '医院不能为空', trigger: 'blur' }
+        ],
+        officeId: [
+          { required: true, message: '科室不能为空', trigger: 'blur' }
         ]
       },
-      loading: false
+      loading: false,
+      hospitalOptions: [],
+      hospitalLoading: false,
+      officeList: []
     }
   },
   methods: {
+    visibleChange(val) {
+      if (!val) {
+        this.hospitalOptions = []
+      }
+    },
     /**
      * 图片上传之前触发
      * @param {file} file 文件内容
@@ -121,7 +156,36 @@ export default {
         this.doctorInfo.doctorImg = res.data
       }
     },
+    searchHospital(query) {
+      this.hospitalOptions = []
+      this.officeList = []
+      if (query !== '') {
+        this.$request('get', 'hos/search', { hospitalName: query }).then(res => {
+          if (res && res.data && res.data.success && res.data.data) {
+            this.hospitalOptions = res.data.data
+            this.hospitalLoading = false;
+          } else {
+            this.hospitalOptions = []
+            this.hospitalLoading = true;
+          }
+        })
+      } else {
+        this.hospitalLoading = false
+      }
+    },
+    hospitalChange(id) {
+      if (id) {
+        this.$request('get', 'office/search', { hosId: id }).then(res => {
+          this.officeList = res.data.data
+        })
+      }
+    },
+    hospitalReset() {
+      this.officeList = []
+      this.doctorInfo.officeId = ''
+    },
     addDoctor() {
+      console.log(this.doctorInfo)
       this.$refs.doctorInfoForm.validate((valid) => {
         if (valid) {
           this.loading = true

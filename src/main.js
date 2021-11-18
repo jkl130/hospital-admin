@@ -62,6 +62,7 @@ $axios.interceptors.request.use(function (config) {
     return Promise.reject(error);
   });
   $axios.interceptors.response.use(response => {
+    message({ message: '请求成功', type: 'success' });
     return Promise.resolve(response);
   }, error => {
   // 请求取消时，也会进入error，根据axios.isCancel()：true--请求取消  false--请求失败

@@ -106,10 +106,26 @@
           <el-input v-model="orderInfo.doctorName" clearable placeholder="请输入医生姓名" disabled></el-input>
         </el-form-item>
         <el-form-item label="办理日期" prop="transactDate">
-          <el-input v-model="orderInfo.transactDate" clearable placeholder="请输入办理日期"></el-input>
+          <!-- <el-input v-model="orderInfo.transactDate" clearable placeholder="请输入办理日期"></el-input> -->
+          <el-date-picker
+            v-model="orderInfo.transactDate"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择办理日期">
+          </el-date-picker>
         </el-form-item>
         <el-form-item label="办理时间段" prop="transactTime">
-          <el-input v-model="orderInfo.transactTime" clearable placeholder="请输入办理时间段"></el-input>
+          <!-- <el-input v-model="orderInfo.transactTime" clearable placeholder="请输入办理时间段"></el-input> -->
+          <el-select
+            v-model="orderInfo.transactTime"
+            placeholder="请输入办理时间段">
+            <el-option
+              v-for="item in timeList"
+              :key="item.value"
+              :label="item.value"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="患者疾病信息" prop="diseaseInfo">
           <el-input v-model="orderInfo.diseaseInfo" type="textarea" autosize clearable placeholder="请输入患者疾病信息"></el-input>
@@ -171,7 +187,18 @@ export default {
         transactTime: [
           { required: true, message: '办理时间段不能为空', trigger: 'blur' }
         ]
-      }
+      },
+      timeList: [
+        {
+          value: '8:00-11:00'
+        },
+        {
+          value: '13:00-15:00'
+        },
+        {
+          value: '15:00-18:00'
+        }
+      ]
     }
   },
   mounted() {

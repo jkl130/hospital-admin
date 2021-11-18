@@ -2,13 +2,44 @@
   <div>
     <el-form :inline="true" :model="doctorQueryForm" size="mini" class="demo-form-inline">
       <el-form-item label="医院">
-        <el-input v-model="doctorQueryForm.hospitalName" clearable placeholder="请输入医院名称"></el-input>
+        <!-- <el-input v-model="doctorQueryForm.hospitalName" clearable placeholder="请输入医院名称"></el-input> -->
+        <el-select
+          v-model="doctorQueryForm.hosId"
+          filterable
+          clearable
+          remote
+          reserve-keyword
+          placeholder="请输入关键词"
+          :remote-method="searchHospital"
+          @visible-change="visibleChange"
+          @change="hospitalChange"
+          @clear="hospitalReset"
+          :loading="hospitalLoading">
+          <el-option v-for="item in hospitalOptions" :key="item.id" :label="item.hospitalName" :value="item.id">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="科室">
-        <el-input v-model="doctorQueryForm.officesName" clearable placeholder="请输入科室名称"></el-input>
+        <!-- <el-input v-model="doctorQueryForm.officesName" clearable placeholder="请输入科室名称"></el-input> -->
+        <el-select v-model="doctorQueryForm.officeId" placeholder="请选择科室" @change="officeChange">
+          <el-option
+            v-for="item in officeList"
+            :key="item.id"
+            :label="item.officesName"
+            :value="item.id">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="医生">
-        <el-input v-model="doctorQueryForm.doctorName" clearable placeholder="请输入医生姓名"></el-input>
+        <!-- <el-input v-model="doctorQueryForm.doctorName" clearable placeholder="请输入医生姓名"></el-input> -->
+        <el-select v-model="doctorQueryForm.doctorIds" multiple placeholder="请选择医生">
+          <el-option
+            v-for="item in doctorList"
+            :key="item.id"
+            :label="item.doctorName"
+            :value="item.id">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="职称">
         <el-input v-model="doctorQueryForm.doctorTitle" clearable placeholder="请输入医生职称"></el-input>
@@ -120,9 +151,19 @@
       hide-on-single-page
     >
     </el-pagination>
-    <el-dialog title="修改医生信息" :visible.sync="updateDialogVisible" :close-on-click-modal="false"
-               @close="resetDoctorInfo">
-      <el-form :model="doctorInfo" :rules="rules" ref="doctorInfoForm" label-width="100px" label-position="left">
+    <el-dialog
+      title="修改医生信息"
+      :visible.sync="updateDialogVisible"
+      :close-on-click-modal="false"
+      @close="resetDoctorInfo"
+    >
+      <el-form
+        :model="doctorInfo"
+        :rules="rules"
+        ref="doctorInfoForm"
+        label-width="100px"
+        label-position="left"
+      >
         <el-form-item label="姓名" prop="doctorName">
           <el-input v-model="doctorInfo.doctorName" clearable placeholder="请输入医生姓名"></el-input>
         </el-form-item>
@@ -149,10 +190,34 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="医院" prop="hospitalName">
-          <el-input v-model="doctorInfo.hospitalName" clearable placeholder="请输入医院名称"></el-input>
+          <!-- <el-input v-model="doctorInfo.hospitalName" clearable placeholder="请输入医院名称"></el-input> -->
+          <el-select
+            v-model="doctorInfo.hospitalName"
+            filterable
+            clearable
+            remote
+            reserve-keyword
+            value-key="id"
+            placeholder="请输入医院"
+            :remote-method="searchHospital"
+            @visible-change="visibleChange"
+            @change="updateChange"
+            @clear="doctorInfo.officesName='';doctorInfo.officeId=''"
+            :loading="hospitalLoading">
+            <el-option v-for="item in hospitalOptions" :key="item.id" :label="item.hospitalName" :value="item">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="科室" prop="officesName">
-          <el-input v-model="doctorInfo.officesName" clearable placeholder="请输入科室名称"></el-input>
+          <!-- <el-input v-model="doctorInfo.officesName" clearable placeholder="请输入科室名称"></el-input> -->
+          <el-select v-model="doctorInfo.officesName" placeholder="请选择科室" value-key="id" @change="updateOfficeChange">
+            <el-option
+              v-for="item in officeList"
+              :key="item.id"
+              :label="item.officesName"
+              :value="item">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="职称" prop="doctorTitle">
           <el-input v-model="doctorInfo.doctorTitle" clearable placeholder="请输入医生职称"></el-input>
@@ -195,9 +260,9 @@ export default {
     return {
       // 医生信息，用于查询医生
       doctorQueryForm: {
-        hospitalName: '',
-        officesName: '',
-        doctorName: '',
+        hosId: '',
+        officeId: '',
+        doctorIds: '',
         doctorTitle: '',
         doctorAdministrative: '',
         doctorDegree: '',
@@ -227,14 +292,76 @@ export default {
         hospitalName: [
           { required: true, message: '医院不能为空', trigger: 'blur' }
         ]
-      }
+      },
+      hospitalOptions: [],
+      hospitalLoading: false,
+      officeList: [],
+      doctorList: []
     }
   },
   mounted() {
     this.getDoctorList()
   },
   methods: {
-
+    hospitalReset() {
+      this.officeList = []
+      this.doctorList = []
+      this.doctorQueryForm.officeId = ''
+      this.doctorQueryForm.doctorIds = ''
+    },
+    updateChange(data) {
+      this.doctorQueryForm.hosId = ''
+      this.doctorInfo.hosId = data.id
+      this.doctorInfo.officeId = ''
+      this.doctorInfo.officesName = ''
+      this.doctorInfo.hospitalName = data.hospitalName
+      if (data && data.id) {
+        this.$request('get', 'office/search', { hosId: data.id }).then(res => {
+          this.officeList = res.data.data
+        })
+      }
+    },
+    updateOfficeChange(data) {
+      this.doctorInfo.officeId = data.id
+      this.doctorInfo.officesName = data.officesName
+    },
+    officeChange(id) {
+      if (id) {
+        this.officeId = id
+        this.$request('get', 'doctor/search', { hosId: this.doctorQueryForm.hosId, officeId: id }).then(res => {
+          this.doctorList = res.data.data
+        })
+      }
+    },
+    hospitalChange(id) {
+      if (id) {
+        this.$request('get', 'office/search', { hosId: id }).then(res => {
+          this.officeList = res.data.data
+        })
+      }
+    },
+    searchHospital(query) {
+      this.hospitalOptions = []
+      this.officeList = []
+      if (query !== '') {
+        this.$request('get', 'hos/search', { hospitalName: query }).then(res => {
+          if (res && res.data && res.data.success && res.data.data) {
+            this.hospitalOptions = res.data.data
+            this.hospitalLoading = false;
+          } else {
+            this.hospitalOptions = []
+            this.hospitalLoading = true;
+          }
+        })
+      } else {
+        this.hospitalLoading = false
+      }
+    },
+    visibleChange(val) {
+      if (!val) {
+        this.hospitalOptions = []
+      }
+    },
     search() {
       this.doctorQueryForm = {
         ...this.doctorQueryForm,
@@ -266,6 +393,8 @@ export default {
       this.updateDialogVisible = true
     },
     submitDoctorInfo() {
+      this.doctorQueryForm.hosId = ''
+      this.officeList = []
       this.$refs.doctorInfoForm.validate((valid) => {
         if (valid) {
           this.$request('put', 'doctor/update', this.doctorInfo).then(res => {

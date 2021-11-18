@@ -75,14 +75,26 @@
       hide-on-single-page
     >
     </el-pagination>
-    <el-dialog title="修改科室信息" :visible.sync="updateDialogVisible" :close-on-click-modal="false"
-               @close="resetOfficeInfo">
+    <el-dialog
+      title="修改科室信息"
+      :visible.sync="updateDialogVisible"
+      :close-on-click-modal="false"
+      @close="resetOfficeInfo"
+    >
       <el-form :model="officeInfo" :rules="rules" ref="officeInfoForm" label-width="100px" label-position="left">
         <el-form-item label="医院名称" prop="hospitalName">
           <el-input v-model="officeInfo.hospitalName" clearable placeholder="请输入医院名称" disabled></el-input>
         </el-form-item>
         <el-form-item label="科室名称" prop="officesName">
-          <el-input v-model="officeInfo.officesName" clearable placeholder="请输入科室名称"></el-input>
+          <!-- <el-input v-model="officeInfo.officesName" clearable placeholder="请输入科室名称"></el-input> -->
+          <el-select v-model="officeInfo.officesName" placeholder="请选择科室" value-key="id" @change="officeChange">
+            <el-option
+              v-for="item in officeList"
+              :key="item.id"
+              :label="item.officesName"
+              :value="item">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="科室医生人数" prop="doctorNum">
           <el-input v-model="officeInfo.doctorNum" clearable placeholder="请输入科室医生人数" disabled></el-input>
@@ -129,13 +141,14 @@ export default {
       updateDialogVisible: false,
       // 自定义表单校验规则(https://element.eleme.cn/#/zh-CN/component/form)
       rules: {
-        officesName: [
+        id: [
           { required: true, message: '科室名称不能为空', trigger: 'blur' }
         ],
         hospitalName: [
           { required: true, message: '医院名称不能为空', trigger: 'blur' }
         ]
-      }
+      },
+      officeList: []
     }
   },
   mounted() {
@@ -169,6 +182,7 @@ export default {
     },
     updateOfficeInfo(officeInfo) {
       this.officeInfo = JSON.parse(JSON.stringify(officeInfo))
+      this.getHospitalOfficeList(officeInfo.hosId)
       this.updateDialogVisible = true
     },
     submitOfficeInfo() {
@@ -184,6 +198,17 @@ export default {
     resetOfficeInfo() {
       this.updateDialogVisible = false
       this.$refs.officeInfoForm.resetFields()
+    },
+    getHospitalOfficeList(hosId) {
+      if (hosId) {
+        this.$request('get', 'office/search', { hosId }).then(res => {
+          this.officeList = res.data.data
+        })
+      }
+    },
+    officeChange(data) {
+      this.officeInfo.id = data.id
+      this.officeInfo.officesName = data.officesName
     },
     deleteOffice(officeInfo) {
       this.$confirm('确定删除该科室？', '提示', {
