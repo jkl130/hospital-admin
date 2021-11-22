@@ -190,34 +190,34 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="医院" prop="hospitalName">
-          <!-- <el-input v-model="doctorInfo.hospitalName" clearable placeholder="请输入医院名称"></el-input> -->
-          <el-select
-            v-model="doctorInfo.hospitalName"
-            filterable
-            clearable
-            remote
-            reserve-keyword
-            value-key="id"
-            placeholder="请输入医院"
-            :remote-method="searchHospital"
-            @visible-change="visibleChange"
-            @change="updateChange"
-            @clear="doctorInfo.officesName='';doctorInfo.officeId=''"
-            :loading="hospitalLoading">
-            <el-option v-for="item in hospitalOptions" :key="item.id" :label="item.hospitalName" :value="item">
-            </el-option>
-          </el-select>
+          <el-input v-model="doctorInfo.hospitalName" clearable placeholder="请输入医院名称" disabled/>
+          <!--          <el-select-->
+          <!--            v-model="doctorInfo.hospitalName"-->
+          <!--            filterable-->
+          <!--            clearable-->
+          <!--            remote-->
+          <!--            reserve-keyword-->
+          <!--            value-key="id"-->
+          <!--            placeholder="请输入医院"-->
+          <!--            :remote-method="searchHospital"-->
+          <!--            @visible-change="visibleChange"-->
+          <!--            @change="updateChange"-->
+          <!--            @clear="doctorInfo.officesName='';doctorInfo.officeId=''"-->
+          <!--            :loading="hospitalLoading">-->
+          <!--            <el-option v-for="item in hospitalOptions" :key="item.id" :label="item.hospitalName" :value="item">-->
+          <!--            </el-option>-->
+          <!--          </el-select>-->
         </el-form-item>
-        <el-form-item label="科室" prop="officesName">
-          <!-- <el-input v-model="doctorInfo.officesName" clearable placeholder="请输入科室名称"></el-input> -->
-          <el-select v-model="doctorInfo.officesName" placeholder="请选择科室" value-key="id" @change="updateOfficeChange">
-            <el-option
-              v-for="item in officeList"
-              :key="item.id"
-              :label="item.officesName"
-              :value="item">
-            </el-option>
-          </el-select>
+        <el-form-item label="科室" prop="officesName" disabled="true">
+          <el-input v-model="doctorInfo.officesName" clearable placeholder="请输入科室名称" disabled/>
+          <!--          <el-select v-model="doctorInfo.officesName" placeholder="请选择科室" value-key="id" @change="updateOfficeChange">-->
+          <!--            <el-option-->
+          <!--              v-for="item in officeList"-->
+          <!--              :key="item.id"-->
+          <!--              :label="item.officesName"-->
+          <!--              :value="item">-->
+          <!--            </el-option>-->
+          <!--          </el-select>-->
         </el-form-item>
         <el-form-item label="职称" prop="doctorTitle">
           <el-input v-model="doctorInfo.doctorTitle" clearable placeholder="请输入医生职称"></el-input>
@@ -347,10 +347,10 @@ export default {
         this.$request('get', 'hos/search', { hospitalName: query }).then(res => {
           if (res && res.data && res.data.success && res.data.data) {
             this.hospitalOptions = res.data.data
-            this.hospitalLoading = false;
+            this.hospitalLoading = false
           } else {
             this.hospitalOptions = []
-            this.hospitalLoading = true;
+            this.hospitalLoading = true
           }
         })
       } else {

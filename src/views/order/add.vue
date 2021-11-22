@@ -1,93 +1,95 @@
 <template>
   <div>
-    <el-form :model="orderInfo" :rules="rules" ref="orderInfoForm" size="medium" label-width="130px" label-position="left">
+    <el-form :model="orderInfo" :rules="rules" ref="orderInfoForm" size="medium" label-width="130px"
+             label-position="left">
       <el-form-item label="患者id" prop="userID">
-        <el-input v-model="orderInfo.userID" clearable placeholder="请输入患者id"></el-input>
+        <el-input v-model="orderInfo.userID" style="width:220px" clearable placeholder="请输入患者id"></el-input>
       </el-form-item>
-      <div style="display: flex;">
-        <el-form-item label="医院" style="width:33.33333%" prop="hosId">
-          <!-- <el-input v-model="orderInfo.hospitalName" clearable placeholder="请输入医院名称"></el-input> -->
-          <el-select
-            v-model="orderInfo.hosId"
-            filterable
-            clearable
-            remote
-            reserve-keyword
-            placeholder="请输入关键词"
-            style="width:98%"
-            :remote-method="searchHospital"
-            @visible-change="visibleChange"
-            @change="hospitalChange"
-            @clear="hospitalReset"
-            :loading="hospitalLoading">
-            <el-option
-              v-for="item in hospitalOptions"
-              :key="item.id"
-              :label="item.hospitalName"
-              :value="item.id">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="科室" style="width:33.33333%" prop="officeId">
-          <!-- <el-input v-model="orderInfo.officesName" clearable placeholder="请输入科室名称"></el-input> -->
-          <el-select
-            v-model="orderInfo.officeId"
-            placeholder="请选择科室"
-            style="width:98%"
-            @change="officeChange">
-            <el-option
-              v-for="item in officeList"
-              :key="item.id"
-              :label="item.officesName"
-              :value="item.id">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="医生" style="width:33.33333%" prop="doctorId">
-          <!-- <el-input v-model="orderInfo.doctorName" clearable placeholder="请输入医生姓名"></el-input> -->
-          <el-select
-            v-model="orderInfo.doctorId"
-            style="width:98%"
-            placeholder="请选择医生">
-            <el-option
-              v-for="item in doctorList"
-              :key="item.id"
-              :label="item.doctorName"
-              :value="item.id">
-            </el-option>
-          </el-select>
-        </el-form-item>
-      </div>
-      <div style="display: flex;">
-        <el-form-item label="办理日期" style="width:33.33333%" prop="transactDate">
-          <!-- <el-input v-model="orderInfo.transactDate" clearable placeholder="请输入办理日期"></el-input> -->
-          <el-date-picker
-            v-model="orderInfo.transactDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="选择办理日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="办理时间段" prop="transactTime">
-          <!-- <el-input v-model="orderInfo.transactTime" clearable placeholder="请输入办理时间段"></el-input> -->
-          <el-select
-            v-model="orderInfo.transactTime"
-            style="width:220px"
-            placeholder="请输入办理时间段">
-            <el-option
-              v-for="item in timeList"
-              :key="item.value"
-              :label="item.value"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-      </div>
-      <el-form-item label="患者疾病信息" prop="diseaseInfo">
-        <el-input v-model="orderInfo.diseaseInfo" type="textarea" autosize clearable placeholder="请输入患者疾病信息"></el-input>
+      <!--      <div style="display: flex;">-->
+      <!--       <el-form-item label="医院" style="width:33.33333%" prop="hosId">-->
+      <el-form-item label="医院" prop="hosId">
+        <!-- <el-input v-model="orderInfo.hospitalName" clearable placeholder="请输入医院名称"></el-input> -->
+        <el-select
+          v-model="orderInfo.hosId"
+          filterable
+          clearable
+          remote
+          reserve-keyword
+          placeholder="请输入关键词"
+          style="width:220px"
+          :remote-method="searchHospital"
+          @visible-change="visibleChange"
+          @change="hospitalChange"
+          @clear="hospitalReset"
+          :loading="hospitalLoading">
+          <el-option
+            v-for="item in hospitalOptions"
+            :key="item.id"
+            :label="item.hospitalName"
+            :value="item.id">
+          </el-option>
+        </el-select>
       </el-form-item>
+      <!--        <el-form-item label="科室" style="width:33.33333%" prop="officeId">-->
+      <el-form-item label="科室" prop="officeId">
+        <!-- <el-input v-model="orderInfo.officesName" clearable placeholder="请输入科室名称"></el-input> -->
+        <el-select
+          v-model="orderInfo.officeId"
+          placeholder="请选择科室"
+          style="width:220px"
+          @change="officeChange">
+          <el-option
+            v-for="item in officeList"
+            :key="item.id"
+            :label="item.officesName"
+            :value="item.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <!--        <el-form-item label="医生" style="width:33.33333%" prop="doctorId">-->
+      <el-form-item label="医生" prop="doctorId">
+        <!-- <el-input v-model="orderInfo.doctorName" clearable placeholder="请输入医生姓名"></el-input> -->
+        <el-select
+          v-model="orderInfo.doctorId"
+          style="width:220px"
+          placeholder="请选择医生">
+          <el-option
+            v-for="item in doctorList"
+            :key="item.id"
+            :label="item.doctorName"
+            :value="item.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <!--      </div>-->
+      <!--      <div style="display: flex;">-->
+      <!--        <el-form-item label="办理日期" style="width:33.33333%" prop="transactDate">-->
+      <el-form-item label="办理日期" prop="transactDate">
+        <!-- <el-input v-model="orderInfo.transactDate" clearable placeholder="请输入办理日期"></el-input> -->
+        <el-date-picker
+          v-model="orderInfo.transactDate"
+          type="date"
+          value-format="yyyy-MM-dd"
+          placeholder="选择办理日期">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="办理时间段" prop="transactTime">
+        <!-- <el-input v-model="orderInfo.transactTime" clearable placeholder="请输入办理时间段"></el-input> -->
+        <el-select
+          v-model="orderInfo.transactTime"
+          style="width:220px"
+          placeholder="请输入办理时间段">
+          <el-option
+            v-for="item in timeList"
+            :key="item.value"
+            :label="item.value"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <!--      </div>-->
       <el-form-item label="预约识别码" prop="orderVer">
-        <el-input v-model="orderInfo.orderVer" clearable placeholder="请输入预约识别码"></el-input>
+        <el-input v-model="orderInfo.orderVer" style="width:220px" clearable placeholder="请输入预约识别码"></el-input>
       </el-form-item>
       <el-form-item label="是否完成" prop="isFinish">
         <el-radio-group v-model="orderInfo.isFinish">
@@ -106,6 +108,10 @@
           <el-radio :label="1">是</el-radio>
           <el-radio :label="0">否</el-radio>
         </el-radio-group>
+      </el-form-item>
+      <el-form-item label="患者疾病信息" prop="diseaseInfo">
+        <el-input v-model="orderInfo.diseaseInfo" style="width: 50%" type="textarea" autosize clearable
+                  placeholder="请输入患者疾病信息"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="addOrder" :loading="loading">添加</el-button>
@@ -202,10 +208,10 @@ export default {
         this.$request('get', 'hos/search', { hospitalName: query }).then(res => {
           if (res && res.data && res.data.success && res.data.data) {
             this.hospitalOptions = res.data.data
-            this.hospitalLoading = false;
+            this.hospitalLoading = false
           } else {
             this.hospitalOptions = []
-            this.hospitalLoading = true;
+            this.hospitalLoading = true
           }
         })
       } else {
