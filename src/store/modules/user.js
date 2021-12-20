@@ -1,16 +1,20 @@
-import {login} from '@/api/login'
+import {login, getInfo} from '@/api/login'
 import {Message} from 'element-ui';
 
 const user = {
   state: {
     token: '',
     name: '',
-    avatar: ''
+    avatar: '',
+    role: ''
   },
 
   mutations: {
     SET_TOKEN: (state, token) => {
       state.token = token
+    },
+    SET_ROLE: (state, role) => {
+      state.role = role
     }
   },
 
@@ -25,8 +29,16 @@ const user = {
             const token = response.data.data
             commit('SET_TOKEN', token)
             localStorage.token = token
+            localStorage.username = userName
             localStorage.logInAgain = 'false'
-            resolve()
+            getInfo(token).then(res => {
+              console.log(res.data.data)
+              localStorage.role = res.data.data.role
+              localStorage.userInfo = JSON.stringify(res.data.data)
+              commit('SET_ROLE', res.data.data.role)
+              resolve()
+            })
+            // resolve()
           } else {
             reject('')
           }

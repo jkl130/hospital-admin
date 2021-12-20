@@ -2,6 +2,10 @@
   <el-menu class="navbar" mode="horizontal">
     <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
     <breadcrumb></breadcrumb>
+    <div class="user-info">
+      <span class="name">用户：{{ username }}</span>
+      <span class="role">角色：{{ roleFilters(role) }}</span>
+    </div>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
         <img class="user-avatar" src="/static/imgs/logo.jpg"/>
@@ -31,6 +35,30 @@ export default {
   computed: {
     ...mapGetters(["sidebar", "avatar"])
   },
+  data() {
+    return {
+      roles: [
+        {
+          role:'ADMIN',
+          label:'管理员'
+        },
+        {
+          role:'DIRECTOR',
+          label:'院长'
+        },
+        {
+          role:'CHIEF',
+          label:'科室主任'
+        },
+        {
+          role:'DOCTOR',
+          label:'医生'
+        }
+      ],
+      role: localStorage.role ? localStorage.role : '',
+      username: localStorage.role ? localStorage.username : ''
+    }
+  },
   methods: {
     toggleSideBar() {
       this.$store.dispatch("ToggleSideBar");
@@ -40,6 +68,14 @@ export default {
         this.$router.push("/login");
         location.reload()
       });
+    },
+    roleFilters(role) {
+      let label = ''
+      const result = this.roles.find(item => item.role === role)
+      if (result) {
+        label = result.label
+      }
+      return label
     }
   }
 };
@@ -183,6 +219,11 @@ export default {
   white-space: nowrap;
   border-radius: 10px;
   border: 1px solid #fff;
+}
+.user-info {
+  position: absolute;
+  top: 0;
+  right: 150px;
 }
 </style>
 

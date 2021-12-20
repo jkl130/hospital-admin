@@ -5,8 +5,6 @@ Vue.use(Router);
 
 /* Layout */
 import Layout from "../views/layout/Layout";
-import store from "../store";
-import axios from 'axios'
 // import { Notification } from 'element-ui';
 /**
 * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
@@ -20,7 +18,7 @@ import axios from 'axios'
     icon: 'svg-name'             the icon show in the sidebar,
   }
 **/
-export const constantRouterMap = [
+const asyncRouterMap = [
   {
     path: "/login",
     component: () => import("@/views/login/index"),
@@ -37,20 +35,20 @@ export const constantRouterMap = [
     path: "/doctor",
     component: Layout,
     name: "医生管理",
-    meta: { title: "医生管理", icon: "example" },
+    meta: { title: "医生管理", icon: "example", roles: ['ADMIN', 'DIRECTOR', 'CHIEF', 'DOCTOR'] },
     redirect: "/doctor/list",
     children: [
       {
         path: "list",
         name: "医生列表",
         component: () => import("@/views/doctor/list.vue"),
-        meta: { title: "医生列表", icon: "tree" }
+        meta: { title: "医生列表", icon: "tree", roles: ['ADMIN', 'DIRECTOR', 'CHIEF', 'DOCTOR'] }
       },
       {
         path: "add",
         name: "添加医生",
         component: () => import("@/views/doctor/add.vue"),
-        meta: { title: "添加医生", icon: "tree" }
+        meta: { title: "添加医生", icon: "tree", roles: ['ADMIN', 'DIRECTOR', 'CHIEF'] }
       }
     ]
   },
@@ -58,20 +56,20 @@ export const constantRouterMap = [
     path: "/hospital",
     component: Layout,
     name: "医院管理",
-    meta: { title: "医院管理", icon: "example" },
+    meta: { title: "医院管理", icon: "example", roles: ['ADMIN', 'DIRECTOR', 'CHIEF', 'DOCTOR'] },
     redirect: "/hospital/list",
     children: [
       {
         path: "list",
         name: "医院列表",
         component: () => import("@/views/hospital/list.vue"),
-        meta: { title: "医院列表", icon: "tree" }
+        meta: { title: "医院列表", icon: "tree", roles: ['ADMIN', 'DIRECTOR', 'CHIEF', 'DOCTOR'] }
       },
       {
         path: "add",
         name: "添加医院",
         component: () => import("@/views/hospital/add.vue"),
-        meta: { title: "添加医院", icon: "tree" }
+        meta: { title: "添加医院", icon: "tree", roles: ['ADMIN'] }
       }
     ]
   },
@@ -79,20 +77,20 @@ export const constantRouterMap = [
     path: "/office",
     component: Layout,
     name: "科室管理",
-    meta: { title: "科室管理", icon: "example" },
+    meta: { title: "科室管理", icon: "example", roles: ['ADMIN', 'DIRECTOR', 'CHIEF', 'DOCTOR'] },
     redirect: "/office/list",
     children: [
       {
         path: "list",
         name: "科室列表",
         component: () => import("@/views/office/list.vue"),
-        meta: { title: "科室列表", icon: "tree" }
+        meta: { title: "科室列表", icon: "tree", roles: ['ADMIN', 'DIRECTOR', 'CHIEF', 'DOCTOR'] }
       },
       {
         path: "add",
         name: "添加科室",
         component: () => import("@/views/office/add.vue"),
-        meta: { title: "添加科室", icon: "tree" }
+        meta: { title: "添加科室", icon: "tree", roles: ['ADMIN', 'DIRECTOR'] }
       }
     ]
   },
@@ -100,20 +98,20 @@ export const constantRouterMap = [
     path: "/order",
     component: Layout,
     name: "订单管理",
-    meta: { title: "订单管理", icon: "example" },
+    meta: { title: "订单管理", icon: "example", roles: ['ADMIN', 'DIRECTOR', 'CHIEF', 'DOCTOR'] },
     redirect: "/order/list",
     children: [
       {
         path: "list",
         name: "订单列表",
         component: () => import("@/views/order/list.vue"),
-        meta: { title: "订单列表", icon: "tree" }
+        meta: { title: "订单列表", icon: "tree", roles: ['ADMIN', 'DIRECTOR', 'CHIEF', 'DOCTOR'] }
       },
       {
         path: "add",
         name: "添加订单",
         component: () => import("@/views/order/add.vue"),
-        meta: { title: "添加订单", icon: "tree" }
+        meta: { title: "添加订单", icon: "tree", roles: ['ADMIN', 'DIRECTOR', 'CHIEF', 'DOCTOR'] }
       }
     ]
   },
@@ -128,25 +126,25 @@ export const constantRouterMap = [
         path: "feed_back",
         name: "反馈",
         component: () => import("@/views/help/feed_back.vue"),
-        meta: { title: "反馈", icon: "tree" }
+        meta: { title: "反馈", icon: "tree", roles: ['ADMIN', 'DIRECTOR', 'CHIEF', 'DOCTOR'] }
       },
       {
         path: "comment",
         name: "评论",
         component: () => import("@/views/help/comment.vue"),
-        meta: { title: "评论", icon: "tree" }
+        meta: { title: "评论", icon: "tree", roles: ['ADMIN', 'DIRECTOR', 'CHIEF', 'DOCTOR'] }
       },
       {
         path: "faq_list",
         name: "问答",
         component: () => import("@/views/help/faq_list.vue"),
-        meta: { title: "问答", icon: "tree" }
+        meta: { title: "问答", icon: "tree", roles: ['ADMIN', 'DIRECTOR', 'CHIEF', 'DOCTOR'] }
       },
       {
         path: "faq_add",
         name: "添加问答",
         component: () => import("@/views/help/faq_add.vue"),
-        meta: { title: "添加问答", icon: "tree" }
+        meta: { title: "添加问答", icon: "tree", roles: ['ADMIN'] }
       }
     ]
   },
@@ -154,24 +152,46 @@ export const constantRouterMap = [
     path: "/notice",
     component: Layout,
     name: "公告管理",
-    meta: { title: "公告管理", icon: "example" },
+    meta: { title: "公告管理", icon: "example", roles: ['ADMIN', 'DIRECTOR', 'CHIEF', 'DOCTOR'] },
     redirect: "/notice/list",
     children: [
       {
         path: "list",
         name: "公告列表",
         component: () => import("@/views/notice/list.vue"),
-        meta: { title: "公告列表", icon: "tree" }
+        meta: { title: "公告列表", icon: "tree", roles: ['ADMIN', 'DIRECTOR', 'CHIEF', 'DOCTOR'] }
       },
       {
         path: "add",
         name: "添加公告",
         component: () => import("@/views/notice/add.vue"),
-        meta: { title: "添加公告", icon: "tree" }
+        meta: { title: "添加公告", icon: "tree", roles: ['ADMIN', 'DIRECTOR'] }
       }
     ]
   }
 ];
+
+const role = localStorage.role ? localStorage.role : ''
+function generateRoutes(routes) {
+  const accessRoutes = []
+  routes.forEach(route => {
+    const temp = {...route}
+    if (!temp.meta || !temp.meta.roles) {
+      accessRoutes.push(temp)
+    }
+    if (temp.meta && temp.meta.roles && temp.meta.roles.length && temp.meta.roles.includes(role)) {
+      if (temp.children && temp.children.length) {
+        temp.children = generateRoutes(temp.children)
+        accessRoutes.push(temp)
+      }
+      if (!temp.children) {
+        accessRoutes.push(temp)
+      }
+    }
+  });
+  return accessRoutes
+}
+export const constantRouterMap = generateRoutes(asyncRouterMap)
 
 const router = new Router({
   mode: 'history',

@@ -13,5 +13,5 @@ module.exports = merge(prodEnv, {
   // BASE_API: '"http://3.86.27.209:3333/cannabis/"'
   // BASE_API: '"http://192.168.1.10:8080/coupons/"'
   // BASE_API: '"http://localhost/cm/"'
-  BASE_API: '"http://localhost/api/"'
+  BASE_API: '"http://localhost/api2/"'
 });

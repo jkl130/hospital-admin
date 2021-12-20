@@ -70,6 +70,7 @@ $axios.interceptors.request.use(function (config) {
   if (axios.isCancel(error)) {
     return new Promise(() => {})
   } else {
+    console.log(error.response)
     let msg = '服务器繁忙，请联系管理员或稍后再试'
     if (error.response.data.errMessage) {
       msg = error.response.data.errMessage
