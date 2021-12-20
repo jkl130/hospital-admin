@@ -4,15 +4,15 @@
       :data="feedbackList"
       border
       style="width: 100%">
-      <!-- <el-table-column
-        prop="id"
-        fixed
-        label="id"
-        align="center">
-      </el-table-column> -->
       <el-table-column
         prop="userId"
         label="用户id"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="userName"
+        fixed
+        label="用户名"
         align="center">
       </el-table-column>
       <el-table-column

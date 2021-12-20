@@ -11,8 +11,18 @@
         align="center">
       </el-table-column>
       <el-table-column
+        prop="doctorName"
+        label="医生姓名"
+        align="center">
+      </el-table-column>
+      <el-table-column
         prop="userId"
         label="患者id"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="username"
+        label="患者姓名"
         align="center">
       </el-table-column>
       <el-table-column
